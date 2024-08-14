@@ -50,3 +50,9 @@ variable "enable_pci_dss_complaince_scanning" {
   default     = false
   description = "Enable or disable scanning for compliance with - PCI DSS"
 }
+
+variable "security_account_run" {
+  type        = bool
+  default     = false
+  description = "Enable this if running terrafrom from the Security Account, should be false otherwise"
+}

@@ -14,12 +14,13 @@ resource "aws_securityhub_finding_aggregator" "itgix_primary" {
   depends_on = [aws_securityhub_organization_admin_account.itgix_primary]
 }
 
+# TODO: this resource should be ran from the security account since it is the delegated administrator account of security hub in the organization
 # Auto enable security hub in organization member accounts
 resource "aws_securityhub_organization_configuration" "itgix_primary" {
-  count       = var.enable_security_hub ? 1 : 0
+  count       = var.enable_security_hub && var.security_account_run ? 1 : 0
   auto_enable = true
 
-  depends_on = [aws_securityhub_finding_aggregator.itgix_primary]
+  #depends_on = [aws_securityhub_finding_aggregator.itgix_primary]
 }
 
 # Enable AWS Foundational Security Best Practices
