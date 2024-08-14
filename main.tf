@@ -1,9 +1,9 @@
-# Enable SecurityHub in management account
+# Enable SecurityHub in delegated admin account - acc where SecurityHub will be managed for the whole organization
 resource "aws_securityhub_account" "itgix_primary" {}
 
 # Designate a security hub admin account
 resource "aws_securityhub_organization_admin_account" "itgix_primary" {
-  admin_account_id = var.organization_management_account_id
+  admin_account_id = var.organization_delegated_admin_account_id
 
   depends_on = [aws_securityhub_account.itgix_primary]
 }
