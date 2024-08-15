@@ -19,6 +19,7 @@ variable "organization_member_account_ids" {
 variable "aws_region" {
   type        = string
   description = "Some of the security standard subscriptions have different ARNs based on the region"
+  default     = "eu-central-1"
 }
 
 variable "enable_aws_security_best_practices_scanning" {
