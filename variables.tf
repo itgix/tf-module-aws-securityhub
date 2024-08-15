@@ -63,3 +63,9 @@ variable "management_account_run" {
   default     = false
   description = "Enable this if running terrafrom from the Management Account, should be false otherwise"
 }
+
+variable "security_email" {
+  type        = string
+  default     = "aws-landing-zones@itgix.com"
+  decsription = "Optional e-mail address that can be provided to receive updates about security issues"
+}
