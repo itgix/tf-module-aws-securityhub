@@ -73,6 +73,6 @@ variable "security_email" {
 
 variable "invite_member_account" {
   type        = bool
-  default     = true
+  default     = false
   description = "(Optional) Boolean whether to invite the account to Security Hub as a member. Defaults to false."
 }
