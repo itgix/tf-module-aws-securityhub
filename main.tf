@@ -56,8 +56,8 @@ resource "aws_securityhub_standards_subscription" "nist_sp_800_53_rev_5" {
 resource "aws_securityhub_member" "landing_zone_member_account" {
   count      = var.enable_security_hub && var.security_account_run ? length(var.organization_member_account_ids) : 0
   account_id = var.organization_member_account_ids[count.index]
-  email      = var.security_email        # this is optional
-  invite     = var.invite_member_account # this is optional
+  email      = var.securityhub_notification_mail # this is optional
+  invite     = var.invite_member_account         # this is optional
 
   # Terraform keeps trying to recrease the resources due to invite or email changes that happen automatically in AWS, even when they are not configured at all
   # so we set them once and ignore changes to them after

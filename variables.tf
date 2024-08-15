@@ -64,7 +64,7 @@ variable "management_account_run" {
   description = "Enable this if running terrafrom from the Management Account, should be false otherwise"
 }
 
-variable "security_email" {
+variable "securityhub_notification_mail" {
   type        = string
   default     = "aws-landing-zones@itgix.com"
   description = "(Optional) e-mail address that can be provided to receive updates about security issues"
