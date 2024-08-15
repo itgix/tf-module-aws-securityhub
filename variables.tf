@@ -69,3 +69,10 @@ variable "security_email" {
   default     = "aws-landing-zones@itgix.com"
   description = "Optional e-mail address that can be provided to receive updates about security issues"
 }
+
+
+variable "invite_member_account" {
+  type        = bool
+  default     = true
+  description = "(Optional) Boolean whether to invite the account to Security Hub as a member. Defaults to false."
+}
