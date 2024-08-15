@@ -67,5 +67,5 @@ variable "management_account_run" {
 variable "security_email" {
   type        = string
   default     = "aws-landing-zones@itgix.com"
-  decsription = "Optional e-mail address that can be provided to receive updates about security issues"
+  description = "Optional e-mail address that can be provided to receive updates about security issues"
 }
