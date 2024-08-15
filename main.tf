@@ -6,7 +6,7 @@ resource "aws_securityhub_account" "itgix_primary" {
 # Designate a security hub admin account
 resource "aws_securityhub_organization_admin_account" "itgix_primary" {
   count            = var.enable_security_hub && var.management_account_run ? 1 : 0
-  admin_account_id = var.organization_delegated_admin_account_id
+  admin_account_id = var.securityhub_delegated_admin_account_id
 
   depends_on = [aws_securityhub_account.itgix_primary]
 }

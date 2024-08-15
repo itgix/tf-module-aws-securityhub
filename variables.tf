@@ -4,7 +4,7 @@ variable "enable_security_hub" {
   description = "Enable or disable security hub"
 }
 
-variable "organization_delegated_admin_account_id" {
+variable "securityhub_delegated_admin_account_id" {
   type        = string
   description = "The account ID of the organization delegated admin account for Security Hub"
   default     = ""
