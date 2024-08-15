@@ -56,6 +56,6 @@ resource "aws_securityhub_standards_subscription" "nist_sp_800_53_rev_5" {
 resource "aws_securityhub_member" "landing_zone_member_account" {
   count      = var.enable_security_hub && var.security_account_run ? length(var.organization_member_account_ids) : 0
   account_id = var.organization_member_account_ids[count.index]
-  email      = "aws-landing-zones@itgix.com" # this is optional
-  invite     = false
+  email      = var.email # this is optional
+  invite     = false     # this is optional
 }
