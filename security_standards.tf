@@ -1,27 +1,3 @@
-# Enable SecurityHub in delegated admin account - acc where SecurityHub will be managed for the whole organization
-resource "aws_securityhub_account" "itgix_primary" {
-  count = var.enable_security_hub && var.management_account_run ? 1 : 0
-}
-
-# Designate a security hub admin account
-resource "aws_securityhub_organization_admin_account" "itgix_primary" {
-  count            = var.enable_security_hub && var.management_account_run ? 1 : 0
-  admin_account_id = var.securityhub_delegated_admin_account_id
-
-  depends_on = [aws_securityhub_account.itgix_primary]
-}
-
-resource "aws_securityhub_finding_aggregator" "itgix_primary" {
-  count        = var.enable_security_hub && var.security_account_run ? 1 : 0
-  linking_mode = "ALL_REGIONS"
-}
-
-# Auto enable security hub in organization member accounts
-resource "aws_securityhub_organization_configuration" "itgix_primary" {
-  count       = var.enable_security_hub && var.security_account_run ? 1 : 0
-  auto_enable = true
-}
-
 # Enable AWS Foundational Security Best Practices
 resource "aws_securityhub_standards_subscription" "aws_security_best_practices" {
   count         = var.enable_security_hub && var.security_account_run && var.enable_aws_security_best_practices_scanning ? 1 : 0
@@ -52,19 +28,4 @@ resource "aws_securityhub_standards_subscription" "nist_sp_800_53_rev_5" {
   standards_arn = "arn:aws:securityhub:${var.aws_region}::standards/nist-800-53/v/5.0.0"
 }
 
-# Member accounts
-resource "aws_securityhub_member" "landing_zone_member_account" {
-  count      = var.enable_security_hub && var.security_account_run ? length(var.organization_member_account_ids) : 0
-  account_id = var.organization_member_account_ids[count.index]
-  email      = var.securityhub_notification_mail # this is optional
-  invite     = var.invite_member_account         # this is optional
-
-  # Terraform keeps trying to recrease the resources due to invite or email changes that happen automatically in AWS, even when they are not configured at all
-  # so we set them once and ignore changes to them after
-  lifecycle {
-    ignore_changes = [
-      email,
-      invite
-    ]
-  }
-}
+// TODO: new standards were added by AWS, we should extend this to include all supported standards
