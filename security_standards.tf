@@ -17,9 +17,14 @@ resource "aws_securityhub_standards_subscription" "cis_aws_foundations_security_
 }
 
 # Enable PCI DSS compliance scanning
-resource "aws_securityhub_standards_subscription" "pci_dss_compliance" {
-  count         = var.enable_security_hub && var.security_account_run && var.enable_pci_dss_complaince_scanning ? 1 : 0
+resource "aws_securityhub_standards_subscription" "pci_dss_v3" {
+  count         = var.enable_security_hub && var.security_account_run && var.enable_pci_dss_v3_scanning ? 1 : 0
   standards_arn = "arn:aws:securityhub:${var.aws_region}::standards/pci-dss/v/3.2.1"
+}
+
+resource "aws_securityhub_standards_subscription" "pci_dss_v4" {
+  count         = var.enable_security_hub && var.security_account_run && var.enable_pci_dss_v4_scanning ? 1 : 0
+  standards_arn = "arn:aws:securityhub:${var.aws_region}::standards/pci-dss/v/4.0.1"
 }
 
 # Enable NIST SP 800-53 Rev. 5 compliance scanning - https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final

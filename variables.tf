@@ -19,7 +19,6 @@ variable "organization_member_account_ids" {
 variable "aws_region" {
   type        = string
   description = "Some of the security standard subscriptions have different ARNs based on the region"
-  default     = "eu-central-1"
 }
 
 variable "enable_aws_security_best_practices_scanning" {
@@ -46,10 +45,16 @@ variable "enable_nist_sp_800_compliance_scanning" {
   description = "Enable or disable scanning for compliance with - NIST SP 800-53 Rev. 5"
 }
 
-variable "enable_pci_dss_complaince_scanning" {
+variable "enable_pci_dss_v3_scanning" {
   type        = bool
   default     = false
-  description = "Enable or disable scanning for compliance with - PCI DSS"
+  description = "Enable or disable scanning for compliance with - PCI DSS v3.2.1"
+}
+
+variable "enable_pci_dss_v4_scanning" {
+  type        = bool
+  default     = false
+  description = "Enable or disable scanning for compliance with - PCI DSS v4.0.1"
 }
 
 variable "security_account_run" {
