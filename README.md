@@ -1,52 +1,54 @@
 The Terraform module is used by the ITGix AWS Landing Zone - https://itgix.com/itgix-landing-zone/
 
+# AWS Security Hub Terraform Module
 
-<!-- BEGIN_TF_DOCS -->
-## Requirements
+This module enables AWS Security Hub across an AWS Organization with delegated admin, member account associations, and configurable security standard subscriptions.
 
-No requirements.
+Part of the [ITGix AWS Landing Zone](https://itgix.com/itgix-landing-zone/).
 
-## Providers
+## Resources Created
 
-| Name | Version |
-|------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | n/a |
-
-## Modules
-
-No modules.
-
-## Resources
-
-| Name | Type |
-|------|------|
-| [aws_securityhub_finding_aggregator.itgix_primary](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/securityhub_finding_aggregator) | resource |
-| [aws_securityhub_member.landing_zone_member_account](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/securityhub_member) | resource |
-| [aws_securityhub_organization_configuration.itgix_primary](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/securityhub_organization_configuration) | resource |
-| [aws_securityhub_standards_subscription.aws_security_best_practices](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/securityhub_standards_subscription) | resource |
-| [aws_securityhub_standards_subscription.cis_aws_foundations_security_benchmark_1_2](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/securityhub_standards_subscription) | resource |
-| [aws_securityhub_standards_subscription.cis_aws_foundations_security_benchmark_1_4](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/securityhub_standards_subscription) | resource |
-| [aws_securityhub_standards_subscription.nist_sp_800_53_rev_5](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/securityhub_standards_subscription) | resource |
-| [aws_securityhub_standards_subscription.pci_dss_compliance](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/securityhub_standards_subscription) | resource |
+- Security Hub account configuration
+- Security standard subscriptions
+- Member account associations
+- AWS Config recorder dependency
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | Some of the security standard subscriptions have different ARNs based on the region | `string` | `"eu-central-1"` | no |
-| <a name="input_enable_aws_security_best_practices_scanning"></a> [enable\_aws\_security\_best\_practices\_scanning](#input\_enable\_aws\_security\_best\_practices\_scanning) | Enable or disable scanning for compliance with - AWS Foundational Security Best Practices | `bool` | `false` | no |
-| <a name="input_enable_cis_aws_foundations_benchmark_v1_2_scanning"></a> [enable\_cis\_aws\_foundations\_benchmark\_v1\_2\_scanning](#input\_enable\_cis\_aws\_foundations\_benchmark\_v1\_2\_scanning) | Enable or disable scanning for compliance with - CIS AWS Foundations Benchmark v1.2.0 | `bool` | `false` | no |
-| <a name="input_enable_cis_aws_foundations_benchmark_v1_4_scanning"></a> [enable\_cis\_aws\_foundations\_benchmark\_v1\_4\_scanning](#input\_enable\_cis\_aws\_foundations\_benchmark\_v1\_4\_scanning) | Enable or disable scanning for compliance with - CIS AWS Foundations Benchmark v1.4.0 | `bool` | `false` | no |
-| <a name="input_enable_nist_sp_800_compliance_scanning"></a> [enable\_nist\_sp\_800\_compliance\_scanning](#input\_enable\_nist\_sp\_800\_compliance\_scanning) | Enable or disable scanning for compliance with - NIST SP 800-53 Rev. 5 | `bool` | `false` | no |
-| <a name="input_enable_pci_dss_complaince_scanning"></a> [enable\_pci\_dss\_complaince\_scanning](#input\_enable\_pci\_dss\_complaince\_scanning) | Enable or disable scanning for compliance with - PCI DSS | `bool` | `false` | no |
-| <a name="input_enable_security_hub"></a> [enable\_security\_hub](#input\_enable\_security\_hub) | Enable or disable security hub | `bool` | `false` | no |
-| <a name="input_invite_member_account"></a> [invite\_member\_account](#input\_invite\_member\_account) | (Optional) Boolean whether to invite the account to Security Hub as a member. Defaults to false. | `bool` | `false` | no |
-| <a name="input_organization_member_account_ids"></a> [organization\_member\_account\_ids](#input\_organization\_member\_account\_ids) | List of member account IDs where guarduty will be enabled | `list(any)` | `[]` | no |
-| <a name="input_security_account_run"></a> [security\_account\_run](#input\_security\_account\_run) | Enable this if running terrafrom from the Security Account, should be false otherwise | `bool` | `false` | no |
-| <a name="input_securityhub_delegated_admin_account_id"></a> [securityhub\_delegated\_admin\_account\_id](#input\_securityhub\_delegated\_admin\_account\_id) | The account ID of the organization delegated admin account for Security Hub | `string` | `""` | no |
-| <a name="input_securityhub_notification_mail"></a> [securityhub\_notification\_mail](#input\_securityhub\_notification\_mail) | (Optional) e-mail address that can be provided to receive updates about security issues | `string` | `"aws-landing-zones@itgix.com"` | no |
+|------|-------------|------|---------|----------|
+| `enable_security_hub` | Enable or disable Security Hub | `bool` | `false` | no |
+| `securityhub_delegated_admin_account_id` | Account ID of the delegated admin for Security Hub | `string` | `""` | no |
+| `organization_member_account_ids` | List of member account IDs | `list(any)` | `[]` | no |
+| `aws_region` | AWS region (used for security standard ARNs) | `string` | — | yes |
+| `enable_aws_security_best_practices_scanning` | Enable AWS Foundational Security Best Practices | `bool` | `false` | no |
+| `enable_cis_aws_foundations_benchmark_v1_2_scanning` | Enable CIS AWS Foundations Benchmark v1.2.0 | `bool` | `false` | no |
+| `enable_cis_aws_foundations_benchmark_v1_4_scanning` | Enable CIS AWS Foundations Benchmark v1.4.0 | `bool` | `false` | no |
+| `enable_nist_sp_800_compliance_scanning` | Enable NIST SP 800-53 Rev. 5 | `bool` | `false` | no |
+| `enable_pci_dss_v3_scanning` | Enable PCI DSS v3.2.1 | `bool` | `false` | no |
+| `enable_pci_dss_v4_scanning` | Enable PCI DSS v4.0.1 | `bool` | `false` | no |
+| `security_account_run` | Set to true if running from the Security Account | `bool` | `false` | no |
+| `securityhub_notification_mail` | Email address for security notifications | `string` | `"aws-landing-zones@itgix.com"` | no |
+| `invite_member_account` | Whether to invite accounts as members | `bool` | `false` | no |
 
-## Outputs
+## Usage Example
 
-No outputs.
-<!-- END_TF_DOCS -->
+```hcl
+module "securityhub" {
+  source = "path/to/tf-module-aws-securityhub"
+
+  enable_security_hub  = true
+  security_account_run = true
+  aws_region           = "eu-central-1"
+
+  securityhub_delegated_admin_account_id = "111111111111"
+
+  organization_member_account_ids = [
+    "222222222222",
+    "333333333333"
+  ]
+
+  enable_aws_security_best_practices_scanning      = true
+  enable_cis_aws_foundations_benchmark_v1_4_scanning = true
+}
+```
