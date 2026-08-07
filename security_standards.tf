@@ -1,36 +1,9 @@
-# Enable AWS Foundational Security Best Practices
-resource "aws_securityhub_standards_subscription" "aws_security_best_practices" {
-  count         = var.enable_security_hub && var.security_account_run && var.enable_aws_security_best_practices_scanning ? 1 : 0
-  standards_arn = "arn:aws:securityhub:${var.aws_region}::standards/aws-foundational-security-best-practices/v/1.0.0"
+# Subscribe to Security Hub standards from a caller-supplied list of ARNs (see var.security_hub_standards_arns).
+# To enable a newly released AWS standard, add its ARN to that list in the calling stack's tfvars -
+# no changes to this module are required. Use the literal placeholder "{region}" where the ARN needs the
+# current AWS region substituted in.
+resource "aws_securityhub_standards_subscription" "this" {
+  for_each      = var.enable_security_hub && var.security_account_run ? toset(var.security_hub_standards_arns) : toset([])
+  standards_arn = replace(each.value, "{region}", var.aws_region)
 }
 
-# Enable CIS foundations benchmark v1.2
-resource "aws_securityhub_standards_subscription" "cis_aws_foundations_security_benchmark_1_2" {
-  count         = var.enable_security_hub && var.security_account_run && var.enable_cis_aws_foundations_benchmark_v1_2_scanning ? 1 : 0
-  standards_arn = "arn:aws:securityhub:::ruleset/cis-aws-foundations-benchmark/v/1.2.0"
-}
-
-# Enable CIS foundations benchmark v1.4
-resource "aws_securityhub_standards_subscription" "cis_aws_foundations_security_benchmark_1_4" {
-  count         = var.enable_security_hub && var.security_account_run && var.enable_cis_aws_foundations_benchmark_v1_4_scanning ? 1 : 0
-  standards_arn = "arn:aws:securityhub:${var.aws_region}::standards/cis-aws-foundations-benchmark/v/1.4.0"
-}
-
-# Enable PCI DSS compliance scanning
-resource "aws_securityhub_standards_subscription" "pci_dss_v3" {
-  count         = var.enable_security_hub && var.security_account_run && var.enable_pci_dss_v3_scanning ? 1 : 0
-  standards_arn = "arn:aws:securityhub:${var.aws_region}::standards/pci-dss/v/3.2.1"
-}
-
-resource "aws_securityhub_standards_subscription" "pci_dss_v4" {
-  count         = var.enable_security_hub && var.security_account_run && var.enable_pci_dss_v4_scanning ? 1 : 0
-  standards_arn = "arn:aws:securityhub:${var.aws_region}::standards/pci-dss/v/4.0.1"
-}
-
-# Enable NIST SP 800-53 Rev. 5 compliance scanning - https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final
-resource "aws_securityhub_standards_subscription" "nist_sp_800_53_rev_5" {
-  count         = var.enable_security_hub && var.security_account_run && var.enable_nist_sp_800_compliance_scanning ? 1 : 0
-  standards_arn = "arn:aws:securityhub:${var.aws_region}::standards/nist-800-53/v/5.0.0"
-}
-
-// TODO: new standards were added by AWS, we should extend this to include all supported standards

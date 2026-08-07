@@ -21,12 +21,7 @@ Part of the [ITGix AWS Landing Zone](https://itgix.com/itgix-landing-zone/).
 | `securityhub_delegated_admin_account_id` | Account ID of the delegated admin for Security Hub | `string` | `""` | no |
 | `organization_member_account_ids` | List of member account IDs | `list(any)` | `[]` | no |
 | `aws_region` | AWS region (used for security standard ARNs) | `string` | — | yes |
-| `enable_aws_security_best_practices_scanning` | Enable AWS Foundational Security Best Practices | `bool` | `false` | no |
-| `enable_cis_aws_foundations_benchmark_v1_2_scanning` | Enable CIS AWS Foundations Benchmark v1.2.0 | `bool` | `false` | no |
-| `enable_cis_aws_foundations_benchmark_v1_4_scanning` | Enable CIS AWS Foundations Benchmark v1.4.0 | `bool` | `false` | no |
-| `enable_nist_sp_800_compliance_scanning` | Enable NIST SP 800-53 Rev. 5 | `bool` | `false` | no |
-| `enable_pci_dss_v3_scanning` | Enable PCI DSS v3.2.1 | `bool` | `false` | no |
-| `enable_pci_dss_v4_scanning` | Enable PCI DSS v4.0.1 | `bool` | `false` | no |
+| `security_hub_standards_arns` | List of Security Hub standards ARNs to subscribe to. Use the literal placeholder `{region}` where the ARN needs the current region substituted in. See [AWS standards reference](https://docs.aws.amazon.com/securityhub/latest/userguide/standards-reference.html) for the full list. Enabling a newly released standard only requires adding its ARN to this list, no module changes needed. | `list(string)` | `[]` | no |
 | `security_account_run` | Set to true if running from the Security Account | `bool` | `false` | no |
 | `securityhub_notification_mail` | Email address for security notifications | `string` | `"aws-landing-zones@itgix.com"` | no |
 | `invite_member_account` | Whether to invite accounts as members | `bool` | `false` | no |
@@ -48,7 +43,9 @@ module "securityhub" {
     "333333333333"
   ]
 
-  enable_aws_security_best_practices_scanning      = true
-  enable_cis_aws_foundations_benchmark_v1_4_scanning = true
+  security_hub_standards_arns = [
+    "arn:aws:securityhub:{region}::standards/aws-foundational-security-best-practices/v/1.0.0",
+    "arn:aws:securityhub:{region}::standards/cis-aws-foundations-benchmark/v/1.4.0",
+  ]
 }
 ```
