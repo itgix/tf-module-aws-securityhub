@@ -21,40 +21,10 @@ variable "aws_region" {
   description = "Some of the security standard subscriptions have different ARNs based on the region"
 }
 
-variable "enable_aws_security_best_practices_scanning" {
-  type        = bool
-  default     = false
-  description = "Enable or disable scanning for compliance with - AWS Foundational Security Best Practices"
-}
-
-variable "enable_cis_aws_foundations_benchmark_v1_2_scanning" {
-  type        = bool
-  default     = false
-  description = "Enable or disable scanning for compliance with - CIS AWS Foundations Benchmark v1.2.0"
-}
-
-variable "enable_cis_aws_foundations_benchmark_v1_4_scanning" {
-  type        = bool
-  default     = false
-  description = "Enable or disable scanning for compliance with - CIS AWS Foundations Benchmark v1.4.0"
-}
-
-variable "enable_nist_sp_800_compliance_scanning" {
-  type        = bool
-  default     = false
-  description = "Enable or disable scanning for compliance with - NIST SP 800-53 Rev. 5"
-}
-
-variable "enable_pci_dss_v3_scanning" {
-  type        = bool
-  default     = false
-  description = "Enable or disable scanning for compliance with - PCI DSS v3.2.1"
-}
-
-variable "enable_pci_dss_v4_scanning" {
-  type        = bool
-  default     = false
-  description = "Enable or disable scanning for compliance with - PCI DSS v4.0.1"
+variable "security_hub_standards_arns" {
+  type        = list(string)
+  default     = []
+  description = "Security Hub standards ARNs to subscribe to; use '{region}' for region-specific ARNs (replaced with var.aws_region)."
 }
 
 variable "security_account_run" {
